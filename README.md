@@ -1,2 +1,391 @@
 # personalwebsite.github.io
-my personal website
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>一键生成网页版简历</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Microsoft YaHei", sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            padding: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        /* 表单容器样式 */
+        .form-container {
+            width: 100%;
+            max-width: 500px;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-title {
+            font-size: 22px;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #3498db;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 14px;
+            color: #34495e;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #dce4ec;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #2c3e50;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background-color: #3498db;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .btn-submit:hover {
+            background-color: #2980b9;
+        }
+
+        /* 简历预览容器样式 */
+        .resume-container {
+            width: 100%;
+            max-width: 800px;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            min-height: 1000px;
+        }
+
+        .resume-header {
+            text-align: center;
+            padding-bottom: 30px;
+            border-bottom: 3px solid #3498db;
+            margin-bottom: 30px;
+        }
+
+        .resume-name {
+            font-size: 32px;
+            color: #2c3e50;
+            margin-bottom: 10px;
+        }
+
+        .resume-job {
+            font-size: 18px;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+
+        .resume-contact {
+            font-size: 14px;
+            color: #7f8c8d;
+            line-height: 1.6;
+        }
+
+        .resume-section {
+            margin-bottom: 30px;
+        }
+
+        .resume-section-title {
+            font-size: 20px;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 4px solid #3498db;
+        }
+
+        .resume-content {
+            font-size: 15px;
+            color: #34495e;
+            line-height: 1.8;
+            padding-left: 10px;
+        }
+
+        .resume-item {
+            margin-bottom: 20px;
+        }
+
+        .resume-item-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .resume-item-title {
+            color: #2c3e50;
+        }
+
+        .resume-item-date {
+            color: #7f8c8d;
+        }
+
+        .resume-item-desc {
+            color: #34495e;
+            line-height: 1.6;
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .resume-container {
+                padding: 25px;
+            }
+
+            .resume-name {
+                font-size: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 资料填写表单 -->
+    <div class="form-container">
+        <h2 class="form-title">填写简历资料</h2>
+        <form id="resumeForm">
+            <!-- 基本信息 -->
+            <div class="form-group">
+                <label class="form-label" for="name">姓名</label>
+                <input type="text" class="form-input" id="name" placeholder="请输入你的姓名" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="job">意向职位</label>
+                <input type="text" class="form-input" id="job" placeholder="请输入你的意向职位" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="phone">手机号码</label>
+                <input type="tel" class="form-input" id="phone" placeholder="请输入你的手机号码" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="email">电子邮箱</label>
+                <input type="email" class="form-input" id="email" placeholder="请输入你的电子邮箱" required>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="address">居住地址</label>
+                <input type="text" class="form-input" id="address" placeholder="请输入你的居住地址">
+            </div>
+
+            <!-- 个人简介 -->
+            <div class="form-group">
+                <label class="form-label" for="profile">个人简介</label>
+                <textarea class="form-textarea" id="profile" placeholder="请简要介绍自己（包括专业技能、职业规划等）" required></textarea>
+            </div>
+
+            <!-- 教育经历 -->
+            <div class="form-group">
+                <label class="form-label" for="education">教育经历</label>
+                <textarea class="form-textarea" id="education" placeholder="格式参考：
+XX大学 XX专业（20XX.09-20XX.06）
+学历：本科
+主修课程：XXX、XXX
+荣誉奖项：XXX、XXX" required></textarea>
+            </div>
+
+            <!-- 工作/实习经历 -->
+            <div class="form-group">
+                <label class="form-label" for="experience">工作/实习经历</label>
+                <textarea class="form-textarea" id="experience" placeholder="格式参考：
+XX公司 XX岗位（20XX.03-20XX.09）
+1. 负责XXX项目的落地执行，完成XXX目标；
+2. 优化XXX流程，提升XXX效率XX%；
+3. 协同XXX团队完成XXX任务，获得XXX认可。" required></textarea>
+            </div>
+
+            <!-- 专业技能 -->
+            <div class="form-group">
+                <label class="form-label" for="skills">专业技能</label>
+                <textarea class="form-textarea" id="skills" placeholder="格式参考：
+1. 办公软件：精通Word、Excel、PPT，能独立完成数据报表制作；
+2. 编程技能：掌握HTML、CSS、JavaScript，具备基础网页开发能力；
+3. 语言能力：英语CET-6，具备流利的听说读写能力。" required></textarea>
+            </div>
+
+            <!-- 提交按钮 -->
+            <button type="submit" class="btn-submit">生成/更新简历</button>
+        </form>
+    </div>
+
+    <!-- 简历预览区域 -->
+    <div class="resume-container" id="resumePreview">
+        <div class="resume-header">
+            <h1 class="resume-name" id="previewName">张三</h1>
+            <p class="resume-job" id="previewJob">前端开发工程师</p>
+            <div class="resume-contact" id="previewContact">
+                手机：13800138000 | 邮箱：zhangsan@example.com | 地址：北京市朝阳区
+            </div>
+        </div>
+
+        <div class="resume-section">
+            <h2 class="resume-section-title">个人简介</h2>
+            <div class="resume-content" id="previewProfile">
+                具备3年前端开发经验，精通HTML、CSS、JavaScript等前端技术，熟练使用Vue、React框架进行项目开发。注重代码质量和用户体验，具备良好的团队协作能力和问题解决能力，致力于打造高效、美观、易用的前端产品。
+            </div>
+        </div>
+
+        <div class="resume-section">
+            <h2 class="resume-section-title">教育经历</h2>
+            <div class="resume-content" id="previewEducation">
+                <div class="resume-item">
+                    <div class="resume-item-header">
+                        <span class="resume-item-title">XX大学 计算机科学与技术专业</span>
+                        <span class="resume-item-date">2016.09-2020.06</span>
+                    </div>
+                    <div class="resume-item-desc">
+                        学历：本科<br>
+                        主修课程：数据结构、计算机网络、操作系统、Web前端开发<br>
+                        荣誉奖项：校级三等奖学金、优秀毕业生
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="resume-section">
+            <h2 class="resume-section-title">工作/实习经历</h2>
+            <div class="resume-content" id="previewExperience">
+                <div class="resume-item">
+                    <div class="resume-item-header">
+                        <span class="resume-item-title">XX科技有限公司 前端开发工程师</span>
+                        <span class="resume-item-date">2020.07-至今</span>
+                    </div>
+                    <div class="resume-item-desc">
+                        1. 负责公司官网的改版与维护，使用Vue3+Vite技术栈重构页面，页面加载速度提升40%；<br>
+                        2. 参与企业管理系统的前端开发，实现数据可视化、表单校验等核心功能，提升用户操作效率；<br>
+                        3. 协同后端工程师进行接口联调，解决跨域、数据兼容等各类问题，保障项目顺利上线；<br>
+                        4. 整理前端开发规范，指导新人快速上手项目，提升团队整体开发效率。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="resume-section">
+            <h2 class="resume-section-title">专业技能</h2>
+            <div class="resume-content" id="previewSkills">
+                1. 前端基础：精通HTML5、CSS3、JavaScript(ES6+)，熟悉Flex、Grid布局、响应式开发；<br>
+                2. 前端框架：熟练使用Vue3、React，掌握Vuex、Pinia、React Hooks等状态管理工具；<br>
+                3. 工程化工具：熟悉Vite、Webpack、Git，具备良好的代码版本管理和项目构建能力；<br>
+                4. 其他技能：了解Node.js、Express，具备基础的后端接口开发能力；英语CET-6，能流畅阅读英文技术文档。
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取表单和预览区域元素
+        const resumeForm = document.getElementById('resumeForm');
+        const previewName = document.getElementById('previewName');
+        const previewJob = document.getElementById('previewJob');
+        const previewContact = document.getElementById('previewContact');
+        const previewProfile = document.getElementById('previewProfile');
+        const previewEducation = document.getElementById('previewEducation');
+        const previewExperience = document.getElementById('previewExperience');
+        const previewSkills = document.getElementById('previewSkills');
+
+        // 表单提交事件（阻止默认提交，更新简历预览）
+        resumeForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // 阻止表单默认刷新页面行为
+
+            // 获取表单输入值
+            const name = document.getElementById('name').value.trim();
+            const job = document.getElementById('job').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const profile = document.getElementById('profile').value.trim();
+            const education = document.getElementById('education').value.trim();
+            const experience = document.getElementById('experience').value.trim();
+            const skills = document.getElementById('skills').value.trim();
+
+            // 更新简历预览内容
+            // 1. 基本信息
+            previewName.textContent = name;
+            previewJob.textContent = job;
+            let contactHtml = `手机：${phone} | 邮箱：${email}`;
+            if (address) {
+                contactHtml += ` | 地址：${address}`;
+            }
+            previewContact.innerHTML = contactHtml;
+
+            // 2. 各模块内容（处理换行符，转换为<br>标签适配HTML显示）
+            previewProfile.innerHTML = profile.replace(/\n/g, '<br>');
+            previewEducation.innerHTML = formatResumeItem(education);
+            previewExperience.innerHTML = formatResumeItem(experience);
+            previewSkills.innerHTML = skills.replace(/\n/g, '<br>');
+        });
+
+        // 格式化简历条目（处理换行，优化排版）
+        function formatResumeItem(content) {
+            if (!content) return '暂无相关信息';
+            // 先按换行分割，再对每一行进行处理，最后拼接为HTML
+            const lines = content.split('\n').map(line => line.trim()).filter(line => line);
+            let html = '<div class="resume-item">';
+            lines.forEach(line => {
+                // 匹配日期格式（20XX.XX-20XX.XX），用于拆分标题和日期
+                const dateReg = /\((\d{4}\.\d{1,2}-\d{4}\.\d{1,2})\)/;
+                if (dateReg.test(line)) {
+                    const [title, date] = line.split(dateReg).filter(Boolean);
+                    html += `
+                        <div class="resume-item-header">
+                            <span class="resume-item-title">${title}</span>
+                            <span class="resume-item-date">${date}</span>
+                        </div>
+                    `;
+                } else {
+                    html += `<div class="resume-item-desc">${line}</div>`;
+                }
+            });
+            html += '</div>';
+            return html;
+        }
+    </script>
+</body>
+</html>
